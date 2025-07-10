@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      1.0.5
+// @version      1.0.6
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -9,8 +9,6 @@
 // @resource     pluginCSS https://bj.bcebos.com/prod-public-cn/voiceplatform/static/crx/index.css
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
 // @match        https://workinghours.chehejia.com/*
-// @downloadURL https://update.greasyfork.org/scripts/542066/%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B.user.js
-// @updateURL https://update.greasyfork.org/scripts/542066/%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B.meta.js
 // ==/UserScript==
 // 监听spa 页面url变化
 /*! jQuery v3.7.1 | (c) OpenJS Foundation and other contributors | jquery.org/license */
