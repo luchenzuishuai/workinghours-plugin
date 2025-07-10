@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      1.0.12
+// @version      1.0.13
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -13,9 +13,14 @@
 // @updateURL https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/all.js
 // ==/UserScript==
 // 监听spa 页面url变化
+/* 
+⭐️ greasyfork 作为安装源(镜像)，后续更新有问题(镜像非镜像均不行，因为greasyfork分配的downloadURL无法直接访问)，解决方式如下：
+ 方式1：安装后，使用github raw.githubusercontent.com 作为更新源即可，但是需要用户指定地址
+ 方式2：用户点击检查更新，跳转到镜像站，镜像站会自动更新，但是需要重新安装
+*/
 /*! jQuery v3.7.1 | (c) OpenJS Foundation and other contributors | jquery.org/license */
 
-https: function renderTrigger(mount, unmount) {
+function renderTrigger(mount, unmount) {
   let showContent = false;
 
   const observer = new MutationObserver(() => {
