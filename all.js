@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         基座模型-工时填写助手
+// @name         Li-基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
 // @version      1.0.0
 // @description  工时一键上报
