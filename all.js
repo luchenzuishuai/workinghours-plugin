@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      0.1.2
+// @version      0.2.0
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // @grant        GM_notification
 // @grant        GM_info
+// @grant        GM_openInTab
 // @resource     pluginCSS https://bj.bcebos.com/prod-public-cn/voiceplatform/static/crx/index.css
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
 // @match        https://workinghours.chehejia.com/*
@@ -305,10 +306,11 @@ async function checkUpdate() {
     if (appInfo.localVersion !== appInfo.remoteVersion) {
       const result = confirm("有新版本，是否前往安装更新？");
       if (result) {
-        window.open(
-          "https://gf.qytechs.cn/zh-CN/scripts/542239-%E5%9F%BA%E5%BA%A7%E6%A8%A1%E5%9E%8B-%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B",
-          "_blank"
-        );
+          // window.open(
+          //   "https://gf.qytechs.cn/zh-CN/scripts/542239-%E5%9F%BA%E5%BA%A7%E6%A8%A1%E5%9E%8B-%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B",
+          //   "_blank"
+        // );
+        GM_openInTab("https://gf.qytechs.cn/zh-CN/scripts/542239-%E5%9F%BA%E5%BA%A7%E6%A8%A1%E5%9E%8B-%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B");
       }
     }
   } catch (error) {
