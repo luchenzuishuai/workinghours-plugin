@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      0.0.1
+// @version      0.1.0
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -289,16 +289,12 @@ const appInfo = {
   localVersion: GM_info.script?.version ?? "",
   remoteVersion: "",
 };
-
-async function init() {
-  // 获取节假日信息
-  fetchHolidayInfo();
-  // 获取open_id
-  fetchAndStorageOpenId();
+async function checkUpdate() {
   try {
     if (!appInfo.localVersion) return;
     const remoteVersion = await fetch(
-      "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/version.json"
+      "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/version.json?timestamp=" +
+        Date.now()
     )
       .then((res) => res.json())
       .then((res) => res.version);
@@ -313,6 +309,13 @@ async function init() {
   } catch (error) {
     console.log(error);
   }
+}
+async function init() {
+  // 获取节假日信息
+  fetchHolidayInfo();
+  // 获取open_id
+  fetchAndStorageOpenId();
+  checkUpdate();
 }
 init();
 GM_addStyle(GM_getResourceText("pluginCSS"));
