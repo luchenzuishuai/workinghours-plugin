@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      0.1.1
+// @version      0.1.2
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -320,7 +320,7 @@ async function init() {
   fetchHolidayInfo();
   // 获取open_id
   fetchAndStorageOpenId();
-  checkUpdate();
+  window.addEventListener("load", checkUpdate);
 }
 init();
 GM_addStyle(GM_getResourceText("pluginCSS"));
