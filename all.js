@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      0.3.0
+// @version      0.9.0
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
