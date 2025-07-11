@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      0.1.0
+// @version      0.1.1
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -292,18 +292,23 @@ const appInfo = {
 async function checkUpdate() {
   try {
     if (!appInfo.localVersion) return;
-    const remoteVersion = await fetch(
-      "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/version.json?timestamp=" +
-        Date.now()
-    )
-      .then((res) => res.json())
-      .then((res) => res.version);
-    appInfo.remoteVersion = remoteVersion;
+    if (!appInfo.remoteVersion) {
+      const remoteVersion = await fetch(
+        "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/version.json?timestamp=" +
+          Date.now()
+      )
+        .then((res) => res.json())
+        .then((res) => res.version);
+      appInfo.remoteVersion = remoteVersion;
+    }
     console.log(appInfo);
-    if (appInfo.localVersion !== remoteVersion) {
+    if (appInfo.localVersion !== appInfo.remoteVersion) {
       const result = confirm("有新版本，是否前往安装更新？");
       if (result) {
-        window.open("", "_blank");
+        window.open(
+          "https://gf.qytechs.cn/zh-CN/scripts/542239-%E5%9F%BA%E5%BA%A7%E6%A8%A1%E5%9E%8B-%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B",
+          "_blank"
+        );
       }
     }
   } catch (error) {
@@ -366,8 +371,9 @@ function createPage() {
   $("#cj_but1").click((e) => {
     try {
       // 非识别错误，弹出对话框
-      $("#dialog-content p").text("脚本会自动更新，或通过油猴检查脚本更新。");
+      $("#dialog-content p").text("若有新版本，将前往安装更新(默认不定时自动更新)。");
       $("#cj_dialog")[0]?.showModal();
+      checkUpdate();
     } catch (error) {
       console.log(error);
     }
