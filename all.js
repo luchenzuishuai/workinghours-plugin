@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      0.2.0
+// @version      0.3.0
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -302,8 +302,18 @@ async function checkUpdate() {
         .then((res) => res.version);
       appInfo.remoteVersion = remoteVersion;
     }
-    console.log(appInfo);
-    if (appInfo.localVersion !== appInfo.remoteVersion) {
+    let needUpdate = false
+    const localNum = appInfo.localVersion.split(".");
+    const remoteNum = appInfo.remoteVersion.split(".");
+    for (let i = 0; i < localNum.length; i++) {
+      if (localNum[i] < remoteNum[i]) {
+        needUpdate = true;
+        break;
+      }
+    }
+    console.log(appInfo, needUpdate);
+
+    if (needUpdate) {
       const result = confirm("有新版本，是否前往安装更新？");
       if (result) {
           // window.open(
