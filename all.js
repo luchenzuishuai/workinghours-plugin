@@ -295,7 +295,6 @@ async function init() {
   fetchHolidayInfo();
   // 获取open_id
   fetchAndStorageOpenId();
-  console.log(GM_info.script.version); // 当前脚本版本
   try {
     if (!appInfo.localVersion) return;
     const remoteVersion = await fetch(
