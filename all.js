@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      1.0.14
+// @version      0.0.1
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // @grant        GM_notification
+// @grant        GM_info
 // @resource     pluginCSS https://bj.bcebos.com/prod-public-cn/voiceplatform/static/crx/index.css
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
 // @match        https://workinghours.chehejia.com/*
@@ -284,13 +285,35 @@ console.log("window", window);
 
 class SearchError extends Error {}
 class UnauthorizedError extends Error {}
-
+const appInfo = {
+  localVersion: GM_info.script?.version ?? "",
+  remoteVersion: "",
+};
 
 async function init() {
   // 获取节假日信息
   fetchHolidayInfo();
   // 获取open_id
   fetchAndStorageOpenId();
+  console.log(GM_info.script.version); // 当前脚本版本
+  try {
+    if (!appInfo.localVersion) return;
+    const remoteVersion = await fetch(
+      "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/version.json"
+    )
+      .then((res) => res.json())
+      .then((res) => res.version);
+    appInfo.remoteVersion = remoteVersion;
+    console.log(appInfo);
+    if (appInfo.localVersion !== remoteVersion) {
+      const result = confirm("有新版本，是否前往安装更新？");
+      if (result) {
+        window.open("", "_blank");
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 init();
 GM_addStyle(GM_getResourceText("pluginCSS"));
@@ -338,7 +361,7 @@ function createPage() {
   $("body").append(page);
 
   // 消息通知按钮事件（和swoker通信）
-    $("#cj_but1").click((e) => {
+  $("#cj_but1").click((e) => {
     try {
       // 非识别错误，弹出对话框
       $("#dialog-content p").text("脚本会自动更新，或通过油猴检查脚本更新。");
@@ -458,7 +481,6 @@ function drag(ele) {
     };
   };
 }
-
 
 async function findWorkingHoursByOpenId() {
   // 四舍五入,指定保留小数点后decimals位
