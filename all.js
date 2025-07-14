@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      0.9.0
+// @version      1.0.0
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -406,6 +406,10 @@ function createPage() {
       // @TODO：目前只拦截了这个接口，其实也够了，因为每次提交都会先调用这个接口
       if (res.status === 401 || res.error === "Unauthorized")
         throw new UnauthorizedError("身份已过期，将自动刷新页面。");
+
+      // 新员工，没有上报任务
+      if (!res.data || !res.data.item || res.data.item.length === 0) 
+        throw new Error("本周暂无工时填报任务，如果您为新员工，请关注下周填报任务。");
 
       task_id = res.data.item[0]?.task_id;
       const workingHours = await findWorkingHoursByOpenId();
