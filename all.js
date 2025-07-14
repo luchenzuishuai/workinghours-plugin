@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      1.0.0
+// @version      1.0.1
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -383,7 +383,9 @@ function createPage() {
   $("#cj_but1").click((e) => {
     try {
       // 非识别错误，弹出对话框
-      $("#dialog-content p").text("若有新版本，将前往安装更新(默认不定时自动更新)。");
+      $("#dialog-content p").text(
+        "若有新版本，将前往安装更新(默认不定时自动更新)，手动安装后请刷新工时填报网站。"
+      );
       $("#cj_dialog")[0]?.showModal();
       checkUpdate();
     } catch (error) {
