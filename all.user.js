@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      1.1.0
+// @version      1.1.1
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -22,7 +22,7 @@ function renderTrigger(mount, unmount) {
   let showContent = false;
 
   const observer = new MutationObserver(() => {
-    if (location.href.endsWith("submit")) {
+    if (location.pathname.endsWith("submit")) {
       if (showContent) return;
 
       showContent = true;
