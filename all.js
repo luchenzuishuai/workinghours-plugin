@@ -22,7 +22,7 @@ function renderTrigger(mount, unmount) {
   let showContent = false;
 
   const observer = new MutationObserver(() => {
-    if (location.href.endsWith("submit")) {
+    if (location.pathname.endsWith("submit")) {
       if (showContent) return;
 
       showContent = true;

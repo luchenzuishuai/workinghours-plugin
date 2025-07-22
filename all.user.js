@@ -296,7 +296,7 @@ async function checkUpdate() {
         .then((res) => res.version);
       appInfo.remoteVersion = remoteVersion;
     }
-    let needUpdate = false
+    let needUpdate = false;
     const localNum = appInfo.localVersion.split(".");
     const remoteNum = appInfo.remoteVersion.split(".");
     for (let i = 0; i < localNum.length; i++) {
@@ -310,11 +310,13 @@ async function checkUpdate() {
     if (needUpdate) {
       const result = confirm("有新版本，是否前往安装更新？");
       if (result) {
-          // window.open(
-          //   "https://gf.qytechs.cn/zh-CN/scripts/542239-%E5%9F%BA%E5%BA%A7%E6%A8%A1%E5%9E%8B-%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B",
-          //   "_blank"
+        // window.open(
+        //   "https://gf.qytechs.cn/zh-CN/scripts/542239-%E5%9F%BA%E5%BA%A7%E6%A8%A1%E5%9E%8B-%E5%B7%A5%E6%97%B6%E5%A1%AB%E5%86%99%E5%8A%A9%E6%89%8B",
+        //   "_blank"
         // );
-        GM_openInTab("https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/all.user.js");
+        GM_openInTab(
+          "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/all.user.js"
+        );
       }
     }
   } catch (error) {
@@ -404,8 +406,10 @@ function createPage() {
         throw new UnauthorizedError("身份已过期，将自动刷新页面。");
 
       // 新员工，没有上报任务
-      if (!res.data || !res.data.item || res.data.item.length === 0) 
-        throw new Error("本周暂无工时填报任务，如果您为新员工，请关注下周填报任务。");
+      if (!res.data || !res.data.item || res.data.item.length === 0)
+        throw new Error(
+          "本周暂无工时填报任务，如果您为新员工，请关注下周填报任务。"
+        );
 
       task_id = res.data.item[0]?.task_id;
       const workingHours = await findWorkingHoursByOpenId();
