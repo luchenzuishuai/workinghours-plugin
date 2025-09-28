@@ -202,7 +202,7 @@ async function fetchHolidayInfo() {
     // 计算周一
     const mondayOffset = currentDay === 0 ? -6 : currentDay - 1;
     const monday = new Date(now);
-    monday.setDate(now.getDate() - mondayOffset);
+    monday.setDate(now.getDate() + mondayOffset);
     monday.setHours(8, 0, 0, 0); // 设置为早上8点
 
     // 周一的基础上+6天
