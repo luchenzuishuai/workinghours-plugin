@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      1.1.2
+// @version      1.1.3
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -200,9 +200,9 @@ async function fetchHolidayInfo() {
     const currentDay = now.getDay(); // 0 周日，1-6 周一到周六
 
     // 计算周一
-    const mondayOffset = currentDay === 0 ? -6 : currentDay - 1;
+    const mondayOffset = currentDay === 0 ? -6 : -(currentDay - 1);
     const monday = new Date(now);
-    monday.setDate(now.getDate() - mondayOffset);
+    monday.setDate(now.getDate() + mondayOffset);
     monday.setHours(8, 0, 0, 0); // 设置为早上8点
 
     // 周一的基础上+6天
