@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         基座模型-工时填写助手
 // @namespace    li-auto-jizuomoxing-luchen
-// @version      1.1.3
+// @version      1.1.4
 // @description  工时一键上报
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
@@ -117,7 +117,7 @@ var saveData = async (task_id, workingHours) => {
   // 遍历工时数组，如果总时长不够8，则将插值分配给最少工时的项目,如果超过8，则将超出的部分分配给最多工时的项目
   const totalWorkingHours = workingHours.reduce(
     (acc, { total }) => acc + 10 * total,
-    0
+    0,
   );
   const diff = 80 - totalWorkingHours;
   let diffProjectCode = void 0;
@@ -164,7 +164,7 @@ var saveData = async (task_id, workingHours) => {
       },
       body: JSON.stringify(body),
       method: "POST",
-    }
+    },
   ).then((res) => res.json());
 };
 
@@ -178,7 +178,7 @@ var getTaskList = async () => {
       },
       body: '{"type":1}',
       method: "POST",
-    }
+    },
   ).then((res) => res.json());
 };
 
@@ -187,7 +187,7 @@ var getWorkingHours = async () => {
   // 当前地址的https协议访问时候 测试环境的CA证书验证不会通过的。因此用http
   return await fetch(
     // "http://ssai-apis-staging.chehejia.com/agi-org-robot/getSheetData",
-    "https://sheepdog.ssai.lixiangoa.com/ws/agi_org_robot/agi-org-robot/getSheetData"
+    "https://sheepdog.ssai.lixiangoa.com/ws/agi_org_robot/agi-org-robot/getSheetData",
   ).then((res) => res.json());
   // return mockRes
 };
@@ -224,7 +224,7 @@ async function fetchHolidayInfo() {
         authorization: `Bearer ${getToken()}`,
         "content-type": "application/json",
       },
-    }
+    },
   )
     .then((response) => response.json())
     .then((data) => {
@@ -249,7 +249,7 @@ function fetchAndStorageOpenId() {
         authorization: `Bearer ${getToken()}`,
       },
       method: "POST",
-    }
+    },
   )
     .then((response) => response.json())
     .then((data) => {
@@ -269,7 +269,7 @@ async function reportByOpenId() {
   if (!open_id) return;
 
   return await fetch(
-    `https://sheepdog.ssai.lixiangoa.com/ws/agi_org_robot/agi-org-robot/saveOpenId/${open_id}`
+    `https://sheepdog.ssai.lixiangoa.com/ws/agi_org_robot/agi-org-robot/saveOpenId/${open_id}`,
   );
 }
 console.log("this is content js");
@@ -290,7 +290,7 @@ async function checkUpdate() {
     if (!appInfo.remoteVersion) {
       const remoteVersion = await fetch(
         "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/version.json?timestamp=" +
-          Date.now()
+          Date.now(),
       )
         .then((res) => res.json())
         .then((res) => res.version);
@@ -315,7 +315,7 @@ async function checkUpdate() {
         //   "_blank"
         // );
         GM_openInTab(
-          "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/all.user.js"
+          "https://raw.githubusercontent.com/luchenzuishuai/workinghours-plugin/refs/heads/main/all.user.js",
         );
       }
     }
@@ -380,7 +380,7 @@ function createPage() {
     try {
       // 非识别错误，弹出对话框
       $("#dialog-content p").text(
-        "若有新版本，将前往安装更新(默认不定时自动更新)，手动安装后请刷新工时填报网站。"
+        "若有新版本，将前往安装更新(默认不定时自动更新)，手动安装后请刷新工时填报网站。",
       );
       $("#cj_dialog")[0]?.showModal();
       checkUpdate();
@@ -408,17 +408,20 @@ function createPage() {
       // 新员工，没有上报任务
       if (!res.data || !res.data.item || res.data.item.length === 0)
         throw new Error(
-          "本周暂无工时填报任务，如果您为新员工，请关注下周填报任务。"
+          "本周暂无工时填报任务，如果您为新员工，请关注下周填报任务。",
         );
 
-      task_id = res.data.item[0]?.task_id;
+      task_id =
+        res.data.item.length > 1
+          ? res.data.item[res.data.item.length - 1]?.task_id
+          : res.data.item[0]?.task_id;
       const workingHours = await findWorkingHoursByOpenId();
       const saveRes = await saveData(task_id, workingHours);
       // 非识别错误，弹出对话框
       $("#dialog-content p").text(
         saveRes.code === -1
           ? saveRes.message
-          : "工时填写成功，即将刷新页面，查看上报结果"
+          : "工时填写成功，即将刷新页面，查看上报结果",
       );
       $("#cj_dialog")[0]?.showModal();
       if (saveRes.code !== -1) {
@@ -434,12 +437,12 @@ function createPage() {
       progressAnimationCompleteFn(false);
       if (error instanceof SearchError) {
         const result = confirm(
-          error.message + "点击确定，将打开帮助文档，以获取相关人员帮助。"
+          error.message + "点击确定，将打开帮助文档，以获取相关人员帮助。",
         );
         if (result) {
           window.open(
             "https://li.feishu.cn/docx/S7Xhdu1FSozDDWxoC05caY3in9e#share-RgYqd0ilMo4RFFx58gocoyAlngg",
-            "_blank"
+            "_blank",
           );
         }
       } else if (error instanceof UnauthorizedError) {
@@ -476,7 +479,7 @@ renderTrigger(
   () => {
     // 将创建的page 移除
     $("#cj_move_page").remove();
-  }
+  },
 );
 
 //拖拽
@@ -544,7 +547,7 @@ async function findWorkingHoursByOpenId() {
   } catch (error) {
     if (error instanceof TypeError) {
       throw new Error(
-        "wifi请连接内网【lixiang-2022】，并关闭科学上网工具，否则无法获取工时数据"
+        "wifi请连接内网【lixiang-2022】，并关闭科学上网工具，否则无法获取工时数据",
       );
     } else {
       throw error;
